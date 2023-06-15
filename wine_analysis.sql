@@ -16,7 +16,7 @@ ORDER BY total_ratings_count DESC;
 */
 
 SELECT name, ratings_count, ratings_average
-FROM vintages
+FROM wines
 WHERE ratings_average >= 4.6
 ORDER BY ratings_count DESC
 LIMIT 10 ;
@@ -51,6 +51,16 @@ LIMIT 1 ;
 /*markdown
 #### We chose the winery that produces the wine at the top of the top 10.
 */
+
+SELECT w2.name AS winery_name, SUM(w1.ratings_count) AS total_ratings_count
+FROM wines AS w1
+INNER JOIN wineries AS w2
+ON w1.winery_id = w2.id
+GROUP BY winery_name
+HAVING w1.ratings_average >= 4.6
+ORDER BY total_ratings_count DESC 
+LIMIT 1;
+
 
 SELECT w1.name AS wine_name, w2.name AS winery_name, w1.ratings_count, w1.ratings_average 
 FROM wines AS w1
